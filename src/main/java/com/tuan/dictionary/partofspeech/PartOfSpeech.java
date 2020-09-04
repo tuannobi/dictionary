@@ -16,10 +16,6 @@ public class PartOfSpeech {
     @Column(name = "description")
     private String description;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "partOfSpeech")
-    private List<Vocabulary> vocabularies;
-
     public String getName() {
         return name;
     }
@@ -34,13 +30,5 @@ public class PartOfSpeech {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Vocabulary> getVocabularies() {
-        return vocabularies;
-    }
-
-    public void setVocabularies(List<Vocabulary> vocabularies) {
-        this.vocabularies = vocabularies;
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tuan.dictionary.vocabulary.Vocabulary;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,66 +18,19 @@ public class Collection {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "image_names")
+    @Column(name = "images")
     private String imageNames;
 
     @Column(name = "create_date")
-    @Temporal(TemporalType.DATE)
-    private Date createdate;
+//    @Temporal(TemporalType.DATE)
+    private LocalDateTime createDate;
 
     @Column(name = "update_time")
-    @Temporal(TemporalType.DATE)
-    private Date updateTime;
+//    @Temporal(TemporalType.DATE)
+    private LocalDateTime updateTime;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "collection")
-    private List<Vocabulary> vocabularies;
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageNames() {
-        return imageNames;
-    }
-
-    public void setImageNames(String imageNames) {
-        this.imageNames = imageNames;
-    }
-
-    public Date getCreatedate() {
-        return createdate;
-    }
-
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public List<Vocabulary> getVocabularies() {
-        return vocabularies;
-    }
-
-    public void setVocabularies(List<Vocabulary> vocabularies) {
-        this.vocabularies = vocabularies;
-    }
 }

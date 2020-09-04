@@ -5,6 +5,7 @@ import com.tuan.dictionary.partofspeech.PartOfSpeech;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -13,7 +14,7 @@ public class Vocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "english_word")
     private String englishWord;
@@ -24,15 +25,15 @@ public class Vocabulary {
     @Column(name = "vietnamese_meaning")
     private String vietnameseMeaning;
 
-    @Column(name = "image_names")
+    @Column(name = "images")
     private String imageNames;
 
     @Column(name = "example")
     private String example;
 
     @Column(name = "update_time")
-    @Temporal(TemporalType.DATE)
-    private Date updateTime;
+//    @Temporal(TemporalType.DATE)
+    private LocalDateTime updateTime;
 
     @Column(name = "abbreviation")
     private String abbreviation;
@@ -44,26 +45,14 @@ public class Vocabulary {
     private String englishMeaning;
 
     @ManyToOne
-    @JoinColumn(name = "collection")
-    private Collection collection;
-
-    @ManyToOne
-    @JoinColumn(name = "part_of_speech")
+    @JoinColumn(name = "part_of_speech_name", foreignKey = @ForeignKey(name = "FKVocabulary619903"))
     private PartOfSpeech partOfSpeech;
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -82,8 +71,6 @@ public class Vocabulary {
     public void setPronunciation(String pronunciation) {
         this.pronunciation = pronunciation;
     }
-
-
 
     public String getVietnameseMeaning() {
         return vietnameseMeaning;
@@ -109,6 +96,13 @@ public class Vocabulary {
         this.example = example;
     }
 
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getAbbreviation() {
         return abbreviation;
@@ -132,14 +126,6 @@ public class Vocabulary {
 
     public void setEnglishMeaning(String englishMeaning) {
         this.englishMeaning = englishMeaning;
-    }
-
-    public Collection getCollection() {
-        return collection;
-    }
-
-    public void setCollection(Collection collection) {
-        this.collection = collection;
     }
 
     public PartOfSpeech getPartOfSpeech() {
