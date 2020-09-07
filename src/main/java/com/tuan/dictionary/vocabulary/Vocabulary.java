@@ -135,4 +135,21 @@ public class Vocabulary {
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
+
+    @Override
+    public String toString() {
+        return "Vocabulary{" +
+                "id=" + id +
+                ", englishWord='" + englishWord + '\'' +
+                ", pronunciation='" + pronunciation + '\'' +
+                ", vietnameseMeaning='" + vietnameseMeaning + '\'' +
+                ", imageNames='" + imageNames + '\'' +
+                ", example='" + example + '\'' +
+                ", updateTime=" + updateTime +
+                ", abbreviation='" + abbreviation + '\'' +
+                ", sound='" + sound + '\'' +
+                ", englishMeaning='" + englishMeaning + '\'' +
+                ", partOfSpeech=" + partOfSpeech +
+                '}';
+    }
 }

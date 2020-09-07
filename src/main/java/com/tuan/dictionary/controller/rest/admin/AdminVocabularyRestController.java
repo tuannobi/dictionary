@@ -43,12 +43,8 @@ public class AdminVocabularyRestController {
 //        }else{
 //            throw new ServiceException("Không được nhập id");
 //        }
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("Access-Control-Max-Age", "1800");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "content-type");
-        httpServletResponse.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, DELETE, PATCH, OPTIONS");
-        // res.setHeader("Content-Type", "application/json;charset=utf-8"); // Opening this comment will cause problems
+        System.out.println(vocabulary.toString());
+        vocabularyService.save(vocabulary);
         return "thanh cong";
     }
 
