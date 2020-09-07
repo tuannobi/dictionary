@@ -1,16 +1,18 @@
 package com.tuan.dictionary.collection;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tuan.dictionary.purchasedetail.PurchaseDetail;
 import com.tuan.dictionary.vocabulary.Vocabulary;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "collection")
-public class Collection {
+public class Collection implements Serializable {
     @Id
     @Column(name = "name")
     private String name;
@@ -29,8 +31,65 @@ public class Collection {
 //    @Temporal(TemporalType.DATE)
     private LocalDateTime updateTime;
 
+    @Column(name = "isAccess")
+    private boolean isAccess;
 
+    @OneToMany(mappedBy = "collection")
+    private List<PurchaseDetail> purchaseDetails;
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageNames() {
+        return imageNames;
+    }
+
+    public void setImageNames(String imageNames) {
+        this.imageNames = imageNames;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public boolean isAccess() {
+        return isAccess;
+    }
+
+    public void setAccess(boolean access) {
+        isAccess = access;
+    }
+
+    public List<PurchaseDetail> getPurchaseDetails() {
+        return purchaseDetails;
+    }
+
+    public void setPurchaseDetails(List<PurchaseDetail> purchaseDetails) {
+        this.purchaseDetails = purchaseDetails;
+    }
 }
