@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
@@ -35,13 +36,20 @@ public class AdminVocabularyRestController {
     }
 
     @PostMapping
-    public Object add(@RequestBody Vocabulary vocabulary){
-        if(vocabulary.getId()==null){
-            vocabularyService.save(vocabulary);
-            return "thanh cong";
-        }else{
-            throw new ServiceException("Không được nhập id");
-        }
+    public Object add(@RequestBody Vocabulary vocabulary, HttpServletResponse httpServletResponse){
+//        if(vocabulary.getId()==null){
+//            vocabularyService.save(vocabulary);
+//            return "thanh cong";
+//        }else{
+//            throw new ServiceException("Không được nhập id");
+//        }
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        httpServletResponse.setHeader("Access-Control-Max-Age", "1800");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "content-type");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, DELETE, PATCH, OPTIONS");
+        // res.setHeader("Content-Type", "application/json;charset=utf-8"); // Opening this comment will cause problems
+        return "thanh cong";
     }
 
     @PutMapping
