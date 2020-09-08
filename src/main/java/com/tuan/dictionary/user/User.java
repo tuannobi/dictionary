@@ -5,6 +5,9 @@ import com.tuan.dictionary.roleaccesscollection.RoleAccessCollection;
 import com.tuan.dictionary.user.type.UserType;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Type;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +26,7 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "isActive")
+    @Column(name="is_active")
     private boolean isActive;
 
     @Column(name = "register_date")
@@ -38,7 +41,7 @@ public class User implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "tokenTimestamp")
+    @Column(name = "token_timestamp")
     private Long tokenTimestamp;
 
     @ManyToOne
@@ -147,4 +150,6 @@ public class User implements Serializable {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+    
+    
 }

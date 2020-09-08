@@ -14,8 +14,18 @@ public class UserType {
 
     @Column(name = "description")
     private String description;
+   
 
-    public String getName() {
+    public UserType() {
+		super();
+	}
+
+	public UserType(String name) {
+		super();
+		this.name = name;
+	}
+
+	public String getName() {
         return name;
     }
 
