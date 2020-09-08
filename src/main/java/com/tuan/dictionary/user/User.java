@@ -150,6 +150,22 @@ public class User implements Serializable {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", isActive=" + isActive +
+                ", registerDate=" + registerDate +
+                ", updateDate=" + updateDate +
+                ", fullName='" + fullName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", tokenTimestamp=" + tokenTimestamp +
+                ", userType=" + userType +
+                ", purchaseDetails=" + purchaseDetails +
+                ", roleAccessCollections=" + roleAccessCollections +
+                '}';
+    }
 }

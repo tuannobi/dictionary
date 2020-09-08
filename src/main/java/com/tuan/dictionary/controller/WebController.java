@@ -56,6 +56,9 @@ public class WebController {
 			modelMap.addAttribute("user", user);
 			modelMap.addAttribute("serviceError",e.getMessage());
 			return "register";
+		} catch(Exception e){
+    		modelMap.addAttribute("user",user);
+			modelMap.addAttribute("serviceError",e.getMessage());
 		}
     	return new RedirectView("/web/register",true);
     }
@@ -96,9 +99,9 @@ public class WebController {
 
 	private boolean checkIfMatchingPassword(String passWord, String rePassword,ModelMap modelMap) {
     	if(passWord.equals(rePassword)) {
-    		modelMap.addAttribute("matchingPasswordError", "Password is not matching");
     		return true;
     	}
+		modelMap.addAttribute("matchingPasswordError", "Password is not matching");
     	return false;
     }
 }
