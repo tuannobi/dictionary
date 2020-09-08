@@ -1,6 +1,7 @@
 package com.tuan.dictionary.user;
 
 import com.tuan.dictionary.purchasedetail.PurchaseDetail;
+import com.tuan.dictionary.roleaccesscollection.RoleAccessCollection;
 import com.tuan.dictionary.user.type.UserType;
 
 import javax.persistence.*;
@@ -44,10 +45,22 @@ public class User implements Serializable {
     @JoinColumn(name = "user_type",foreignKey = @ForeignKey(name = "FKUser848884"))
     private UserType userType;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user")
     private List<PurchaseDetail> purchaseDetails;
+    
+    @OneToMany(mappedBy = "user")
+    private List<RoleAccessCollection> roleAccessCollections;
+    
+    public List<RoleAccessCollection> getRoleAccessCollections() {
+		return roleAccessCollections;
+	}
 
-    public List<PurchaseDetail> getPurchaseDetails() {
+	public void setRoleAccessCollections(List<RoleAccessCollection> roleAccessCollections) {
+		this.roleAccessCollections = roleAccessCollections;
+	}
+
+	public List<PurchaseDetail> getPurchaseDetails() {
         return purchaseDetails;
     }
 

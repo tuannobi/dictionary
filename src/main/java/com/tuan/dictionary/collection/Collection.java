@@ -34,9 +34,6 @@ public class Collection implements Serializable {
     @Column(name = "isAccess")
     private boolean isAccess;
 
-    @OneToMany(mappedBy = "collection")
-    private List<PurchaseDetail> purchaseDetails;
-
     public String getName() {
         return name;
     }
@@ -83,13 +80,5 @@ public class Collection implements Serializable {
 
     public void setAccess(boolean access) {
         isAccess = access;
-    }
-
-    public List<PurchaseDetail> getPurchaseDetails() {
-        return purchaseDetails;
-    }
-
-    public void setPurchaseDetails(List<PurchaseDetail> purchaseDetails) {
-        this.purchaseDetails = purchaseDetails;
     }
 }
