@@ -83,6 +83,14 @@ public class WebController {
 			modelMap.addAttribute("phoneNumberError", "Invalid phone number");
 		}
 		
+		if(user.getPassword()==null || "".equals(user.getPassword())) {
+			valid=false;
+			modelMap.addAttribute("passwordError", "Please input your password");
+		}else if(user.getPassword().length()<6) {
+			valid=false;
+			modelMap.addAttribute("passwordError","Password must be at least 6 characters");
+		}
+		
 		return valid;
 	}
 
