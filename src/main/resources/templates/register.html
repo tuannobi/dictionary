@@ -26,27 +26,27 @@
 					<label for="fullname">Full name: </label>
 					<input type="text" class="form-control" th:field="*{fullName}">
 				</div>
-				<label th:if="${fullNameError}" th:text="${fullNameError}" class="alert alert-danger"></label>
+				<span class="alert alert-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
 				<div class="form-group">
 					<label for="email">Email: </label>
 					<input type="email" class="form-control" th:field="*{email}">
 				</div>
-				<label th:if="${emailError}" th:text="${emailError}" class="alert alert-danger"></label>
+				<span class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 				<div class="form-group">
 					<label for="phone_number">Phone number: </label>
 					<input type="tel" class="form-control" th:field="*{phoneNumber}">
 				</div>
-				<label th:if="${phoneNumberError}" th:text="${phoneNumberError}" class="alert alert-danger"></label>
+				<span class="alert alert-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
 				<div class="form-group">
 					<label for="password">Password: </label>
 					<input type="password" class="form-control" th:field="*{password}">
 				</div>
-				<label th:if="${passwordError}" th:text="${passwordError}" class="alert alert-danger"></label>
+				<span class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 				<div class="form-group">
 					<label for="re_password">Re-password: </label>
 					<input type="password" class="form-control" id="re_password" name="re_password">
 				</div>
-				<label th:if="${matchingPasswordError}" class="alert alert-danger" th:text="${matchingPasswordError}"></label>
+				<span th:if="${matchingPasswordError}" class="alert alert-danger" th:text="${matchingPasswordError}"></span>
 				<div class="form-group">
 					<input class="btn btn-success" type="submit" value="Register">
 				</div>

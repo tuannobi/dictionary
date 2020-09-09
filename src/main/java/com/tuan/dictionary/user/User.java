@@ -4,9 +4,15 @@ import com.tuan.dictionary.purchasedetail.PurchaseDetail;
 import com.tuan.dictionary.roleaccesscollection.RoleAccessCollection;
 import com.tuan.dictionary.user.type.UserType;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,9 +26,13 @@ public class User implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Email
+    @NotBlank
     @Column(name = "email")
     private String email;
 
+    @NotBlank
+    @Size(min = 6)
     @Column(name = "password")
     private String password;
 
@@ -35,9 +45,12 @@ public class User implements Serializable {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
+    @NotBlank(message = "{user.name}")
     @Column(name = "full_name")
     private String fullName;
 
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    @NotBlank
     @Column(name = "phone_number")
     private String phoneNumber;
 
