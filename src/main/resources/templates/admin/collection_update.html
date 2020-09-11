@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/resources/static/client/css/bootstrap.min.css}">
+    <style>
+        .w3-display-bottomright {
+            position: absolute;
+            right: 0;
+            bottom: 0
+        }
+
+        .w3-padding {
+            padding: 8px 16px!important
+        }
+    </style>
+</head>
+<body>
+<div class="container-fruid m-5 row">
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        <h1>COLLECTION UPDATE FORM</h1>
+        <form >
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input name="name" type="text" class="form-control" required>
+            </div>
+            <!-- <span class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span> -->
+
+            <div class="form-group">
+                <label for="description">Description: </label>
+                <textarea id="description" class="form-control"></textarea>
+            </div>
+            <!-- <span class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span> -->
+
+            <div class="form-group">
+                <label for="password">Option: </label>
+                <select id="access" class="form-control">
+                    <option value="true">Available</option>
+                    <option value="false">Not availble</option>
+                </select>
+            </div>
+            <!-- <span class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span> -->
+
+            <div class="form-group">
+                <input id="Add" class="btn btn-success" type="button" value="Add">
+            </div>
+        </form>
+        
+        <!-- <div th:if="${errorMessage != null}" style="font-size: 16px; color: red; text-align: center;" th:text="${errorMessage}"></div> -->
+    </div>
+    <div class="col-sm"></div>
+</div>
+
+<script th:src="@{/resources/static/client/js/jquery-3.5.1.min.js}"></script>
+<script>
+    $(document).ready(function(){
+                var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+        $.ajax({
+                url: "http://localhost:8090/tuno/rest/admin/collections",
+                type: 'GET',
+                // data: formData,
+                error : function(err) {
+                    console.log('Error!', err)
+                },
+                success: function(data) {
+                    console.log('Success!')
+                    console.log(data)
+                    console.log("Start")
+                    var i=0
+                    data.forEach(function (item){
+                        i++
+                        var isAccess="❌"
+                        if(item.access==1){
+                            isAccess="✅"
+                        }
+                        $('#collectionTable > tbody').append('<tr>\
+                                                <th scope="row">'+i+'</th>\
+                                                <td>'+item.name+'</td>\
+                                                <td>'+item.createDate+'</td>\
+                                                <td>'+item.updateTime+'</td>\
+                                                <td>'+isAccess+'</td>\
+                                                <td>\
+                                                    <button type="button" title="Detail" class="btn btn-info">Detail</button>\
+                                                    <button type="button" title="Update" class="btn btn-warning">Update</button>\
+                                                    <button type="button" title="Delete" class="btn btn-danger">Delete</button>\
+                                                </td>\
+                                            </tr>');
+                    })
+                }
+            });
+
+
+        $('#Add').click(function(){
+            console.log($('input[name="name"]').val())
+            console.log($('#description').val())
+            console.log($('#access').find(':selected').val())
+                $.ajax({
+                url: "http://localhost:8090/tuno/rest/admin/collections",
+                type: 'PUT',
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                data: JSON.stringify({
+                    'name':$('input[name="name"]').val(),
+                    'description':$('#description').val(),
+                    'imageNames':'',
+                    'createDate':'',
+                    'updateTime':'',
+                    'access':$('#access').find(':selected').val()
+                }),             
+                contentType: 'application/json',
+                error : function(err) {
+                    console.log('Error!', err)
+                },
+                success: function(data) {
+                    console.log('Success!')
+                    }
+                });
+        });
+
+    });
+</script>
+</body>
+</html>

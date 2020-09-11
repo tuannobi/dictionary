@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection</title>
+    <link rel="stylesheet" th:href="@{/resources/static/client/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Collection</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+                </div>
+              </nav>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-success">Add Collection</button>
+        </div>
+        <div class="row">
+            <table id="collectionTable" class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Create Date</th>
+                    <th scope="col">Update Date</th>
+                    <th scope="col">Available</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <script th:src="@{/resources/static/client/js/jquery-3.5.1.min.js}"></script>
+    <script>
+    	$(document).ready(function(){
+            $.ajax({
+                url: "http://localhost:8090/tuno/rest/admin/collections",
+                type: 'GET',
+                // data: formData,
+                error : function(err) {
+                    console.log('Error!', err)
+                },
+                success: function(data) {
+                    console.log('Success!')
+                    console.log(data)
+                    console.log("Start")
+                    var i=0
+                    data.forEach(function (item){
+                        i++
+                        var isAccess="❌"
+                        if(item.access==1){
+                            isAccess="✅"
+                        }
+                        $('#collectionTable > tbody').append('<tr>\
+                                                <th scope="row">'+i+'</th>\
+                                                <td>'+item.name+'</td>\
+                                                <td>'+item.createDate+'</td>\
+                                                <td>'+item.updateTime+'</td>\
+                                                <td>'+isAccess+'</td>\
+                                                <td>\
+                                                    <button type="button" title="Detail" class="btn btn-info">Detail</button>\
+                                                    <button type="button" title="Update" class="btn btn-warning">Update</button>\
+                                                    <button type="button" id="'+item.name+'" title="Delete" class="btn btn-danger deleteButton">Delete</button>\
+                                                </td>\
+                                            </tr>');
+                    })
+                }
+            });
+
+            $(document).on('click', '.deleteButton', function() {
+            	var id=$(this).attr('id')
+                $.ajax({
+                url: "http://localhost:8090/tuno/rest/admin/collections/"+id,
+                type: 'DELETE',
+                // headers: { 
+                //     'Accept': 'application/json',
+                //     'Content-Type': 'application/json' 
+                // },
+                // data: JSON.stringify({
+                //     'name':$('input[name="name"]').val(),
+                //     'description':$('#description').val(),
+                //     'imageNames':'',
+                //     'createDate':'',
+                //     'updateTime':'',
+                //     'access':$('#access').find(':selected').val()
+                // }),             
+                // contentType: 'application/json',
+                error : function(err) {
+                    console.log('Error!', err)
+                },
+                success: function(data) {
+                    console.log('Success!')
+                    location.reload()
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

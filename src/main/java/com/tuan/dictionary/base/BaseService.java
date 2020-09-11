@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface BaseService<T,ID> {
     List<T> findAll();
     Optional<T> findById(ID id);
-    Vocabulary save(T t);
+    T save(T t);
     boolean existsById(ID id);
     long count();
     void deleteById(ID id);

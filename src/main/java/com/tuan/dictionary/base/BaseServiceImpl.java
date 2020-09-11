@@ -24,8 +24,8 @@ public abstract class BaseServiceImpl<T,ID> implements BaseService<T,ID> {
     }
 
     @Override
-    public Vocabulary save(T t) {
-        return (Vocabulary) getRepository().save(t);
+    public T save(T t) {
+        return getRepository().save(t);
     }
 
     @Override

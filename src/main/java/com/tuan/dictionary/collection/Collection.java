@@ -1,6 +1,5 @@
 package com.tuan.dictionary.collection;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tuan.dictionary.purchasedetail.PurchaseDetail;
 import com.tuan.dictionary.vocabulary.Vocabulary;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "collection")
-public class Collection implements Serializable {
+public class Collection {
     @Id
     @Column(name = "name")
     private String name;
@@ -31,7 +30,7 @@ public class Collection implements Serializable {
 //    @Temporal(TemporalType.DATE)
     private LocalDateTime updateTime;
 
-    @Column(name = "isAccess")
+    @Column(name = "is_access")
     private boolean isAccess;
 
     public String getName() {

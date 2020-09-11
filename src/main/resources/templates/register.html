@@ -26,27 +26,27 @@
 					<label for="fullname">Full name: </label>
 					<input type="text" class="form-control" th:field="*{fullName}">
 				</div>
-				<span class="alert alert-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
+				<span style="font-size: 16px; color: red; text-align: center;" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
 				<div class="form-group">
 					<label for="email">Email: </label>
 					<input type="email" class="form-control" th:field="*{email}">
 				</div>
-				<span class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+				<span style="font-size: 16px; color: red; text-align: center;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 				<div class="form-group">
 					<label for="phone_number">Phone number: </label>
 					<input type="tel" class="form-control" th:field="*{phoneNumber}">
 				</div>
-				<span class="alert alert-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+				<span style="font-size: 16px; color: red; text-align: center;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
 				<div class="form-group">
 					<label for="password">Password: </label>
 					<input type="password" class="form-control" th:field="*{password}">
 				</div>
-				<span class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+				<span style="font-size: 16px; color: red; text-align: center;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 				<div class="form-group">
 					<label for="re_password">Re-password: </label>
 					<input type="password" class="form-control" id="re_password" name="re_password">
 				</div>
-				<span th:if="${matchingPasswordError}" class="alert alert-danger" th:text="${matchingPasswordError}"></span>
+				<span th:if="${matchingPasswordError}" style="font-size: 16px; color: red; text-align: center;" th:text="${matchingPasswordError}"></span>
 				<div class="form-group">
 					<input class="btn btn-success" type="submit" value="Register">
 				</div>

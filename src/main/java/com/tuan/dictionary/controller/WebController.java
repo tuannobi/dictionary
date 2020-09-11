@@ -33,9 +33,18 @@ public class WebController {
 		this.userService=userService;
 	}
 	
-    @GetMapping("/admin/login")
-    public String login(){
-        return "admin/login";
+    @GetMapping("/login")
+    public String login(@RequestParam(value = "error",required = false) String error, 
+    		ModelMap modelMap, 
+    		@ModelAttribute("user") User user){
+    	
+    	if (error!=null) {
+    		if(error.equals("")) {
+    			modelMap.addAttribute("errorMessage","Wrong user name or password");
+        		return "login";
+    		}
+    	}
+        return "login";
     }
     
     @GetMapping("/register")
@@ -43,12 +52,6 @@ public class WebController {
     	modelMap.addAttribute("user", new User());
     	return "register";
     }
-
-    @GetMapping("/login")
-	public String adminLogin(ModelMap modelMap){
-		modelMap.addAttribute("user",new User());
-		return "admin/login";
-	}
 
     @GetMapping("/error/403")
 	@ResponseBody
