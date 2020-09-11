@@ -33,11 +33,13 @@ public class JwtAuthenticationController {
 	
 	@PostMapping("/authenticate")
 	public String createAuthenticationToken(@RequestBody UserJwt user) throws Exception{
+		//check login information
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 		}catch (BadCredentialsException e) {
 			throw new Exception("Incorrect email or password!");
 		}
+		//getUsername
 		final UserDetails userDetails=userDetailsService.loadUserByUsername(user.getEmail());
 		final String jwt=jwtUtil.generateToken(userDetails);
 //		return ResponseEntity.ok(new User());

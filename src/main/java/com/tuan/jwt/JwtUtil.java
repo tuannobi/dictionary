@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,8 @@ public class JwtUtil {
 	
 //	@Value("${jwt.secret}")
 	private String SECRET_KEY="styl";
+	
+	private long EXPIRATION_TIME=60;
 	
 	public String extractEmail(String token) {
 		return extractClaim(token,Claims::getSubject);
@@ -49,7 +52,7 @@ public class JwtUtil {
 	
 	private String createToken(Map<String, Object> claims, String subject) {
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis()+1000*60))
+				.setExpiration(new Date(System.currentTimeMillis()+1000*EXPIRATION_TIME))
 				.signWith(SignatureAlgorithm.HS256,SECRET_KEY).compact();
 	}
 	
