@@ -1,7 +1,6 @@
 package com.tuan.dictionary.vocabulary;
 
 import com.tuan.dictionary.collection.Collection;
-import com.tuan.dictionary.partofspeech.PartOfSpeech;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -44,9 +43,8 @@ public class Vocabulary {
     @Column(name = "english_meaning")
     private String englishMeaning;
 
-    @ManyToOne
-    @JoinColumn(name = "part_of_speech_name", foreignKey = @ForeignKey(name = "FKVocabulary619903"))
-    private PartOfSpeech partOfSpeech;
+    @Column(name="part_of_speech")
+    private String partOfSpeech;
 
     public Long getId() {
         return id;
@@ -128,28 +126,11 @@ public class Vocabulary {
         this.englishMeaning = englishMeaning;
     }
 
-    public PartOfSpeech getPartOfSpeech() {
+    public String getPartOfSpeech() {
         return partOfSpeech;
     }
 
-    public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
+    public void setPartOfSpeech(String partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
-    }
-
-    @Override
-    public String toString() {
-        return "Vocabulary{" +
-                "id=" + id +
-                ", englishWord='" + englishWord + '\'' +
-                ", pronunciation='" + pronunciation + '\'' +
-                ", vietnameseMeaning='" + vietnameseMeaning + '\'' +
-                ", imageNames='" + imageNames + '\'' +
-                ", example='" + example + '\'' +
-                ", updateTime=" + updateTime +
-                ", abbreviation='" + abbreviation + '\'' +
-                ", sound='" + sound + '\'' +
-                ", englishMeaning='" + englishMeaning + '\'' +
-                ", partOfSpeech=" + partOfSpeech +
-                '}';
     }
 }

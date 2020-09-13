@@ -1,17 +1,20 @@
 package com.tuan.dictionary.collection;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+import com.tuan.dictionary.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import com.tuan.dictionary.base.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CollectionServiceImpl extends BaseServiceImpl<Collection, String> implements CollectionService {
+public class CollectionServiceImpl extends BaseServiceImpl<Collection, Long> implements CollectionService {
 	
-	private CollectionRepository collectionRepository;
+	private final CollectionRepository collectionRepository;
 	
 	@Autowired
 	public CollectionServiceImpl(CollectionRepository collectionRepository) {
@@ -19,22 +22,25 @@ public class CollectionServiceImpl extends BaseServiceImpl<Collection, String> i
 	}
 
 	@Override
-	protected CrudRepository<Collection, String> getRepository() {
-		// TODO Auto-generated method stub
+	protected CrudRepository<Collection, Long> getRepository() {
 		return collectionRepository;
 	}
 	
-	
+	@Override
+	@Transactional
 	public void addCollection(Collection collection) {
 		collection.setCreateDate(LocalDateTime.now());
 		collectionRepository.save(collection);
 	}
 
 	@Override
-	public void updateCollection(Collection collection) {
-		collection.setUpdateTime(LocalDateTime.now());
-		collectionRepository.save(collection);
-		
+	@Transactional
+	public void updateCollection(Collection collection) throws ServiceException {
+		Optional<Collection> existingCollection=collectionRepository.findById(collection.getId());
+		if(!existingCollection.isPresent()){
+			throw new ServiceException("Collection Not Found");
+		}
+		collectionRepository.updateCollection(collection.getId(),collection.getName(),collection.getDescription(),LocalDateTime.now(),collection.isAccess());
 	}
 
 }

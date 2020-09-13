@@ -1,7 +1,7 @@
 package com.tuan.dictionary.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tuan.dictionary.user.User;
 import com.tuan.dictionary.user.UserJwt;
-import com.tuan.jwt.JwtUtil;
+import com.tuan.dictionary.jwt.JwtUtil;
 
 @RestController
 public class JwtAuthenticationController {
@@ -31,7 +30,7 @@ public class JwtAuthenticationController {
 		this.userDetailsService=userDetailsService;
 	}
 	
-	@PostMapping("/authenticate")
+	@PostMapping(value = "/authenticate",produces = MediaType.APPLICATION_JSON_VALUE)
 	public String createAuthenticationToken(@RequestBody UserJwt user) throws Exception{
 		//check login information
 		try {
@@ -42,7 +41,6 @@ public class JwtAuthenticationController {
 		//getUsername
 		final UserDetails userDetails=userDetailsService.loadUserByUsername(user.getEmail());
 		final String jwt=jwtUtil.generateToken(userDetails);
-//		return ResponseEntity.ok(new User());
 		return jwt;
 	}
 }

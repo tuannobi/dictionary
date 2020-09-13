@@ -12,7 +12,12 @@ import java.util.List;
 @Entity
 @Table(name = "collection")
 public class Collection {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "name")
     private String name;
 
@@ -79,5 +84,13 @@ public class Collection {
 
     public void setAccess(boolean access) {
         isAccess = access;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -24,11 +24,6 @@ public abstract class BaseServiceImpl<T,ID> implements BaseService<T,ID> {
     }
 
     @Override
-    public T save(T t) {
-        return getRepository().save(t);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public boolean existsById(ID id) {
         return getRepository().existsById(id);

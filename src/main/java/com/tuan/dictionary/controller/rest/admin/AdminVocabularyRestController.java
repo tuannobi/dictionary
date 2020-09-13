@@ -35,30 +35,30 @@ public class AdminVocabularyRestController {
         return vocabularyService.findById(id);
     }
 
-    @PostMapping
-    public Object add(@RequestBody Vocabulary vocabulary, HttpServletResponse httpServletResponse){
-//        if(vocabulary.getId()==null){
-//            vocabularyService.save(vocabulary);
-//            return "thanh cong";
-//        }else{
-//            throw new ServiceException("Không được nhập id");
-//        }
-        System.out.println(vocabulary.toString());
-        vocabularyService.save(vocabulary);
-        return "thanh cong";
-    }
+//    @PostMapping
+//    public Object add(@RequestBody Vocabulary vocabulary, HttpServletResponse httpServletResponse){
+////        if(vocabulary.getId()==null){
+////            vocabularyService.save(vocabulary);
+////            return "thanh cong";
+////        }else{
+////            throw new ServiceException("Không được nhập id");
+////        }
+//        System.out.println(vocabulary.toString());
+//        vocabularyService.save(vocabulary);
+//        return "thanh cong";
+//    }
 
-    @PutMapping
-    public Object update(HttpServletResponse response,@RequestBody Vocabulary vocabulary){
-        if(vocabulary.getId()!=null){
-            vocabularyService.save(vocabulary);
-            return "cap nhat thanh cong";
-        }else{
-//            throw new ServiceException("Phải nhập id");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return "fail";
-        }
-    }
+//    @PutMapping
+//    public Object update(HttpServletResponse response,@RequestBody Vocabulary vocabulary){
+//        if(vocabulary.getId()!=null){
+//            vocabularyService.save(vocabulary);
+//            return "cap nhat thanh cong";
+//        }else{
+////            throw new ServiceException("Phải nhập id");
+//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            return "fail";
+//        }
+//    }
 
     @DeleteMapping("/{id}")
     public Object delete(HttpServletResponse response,@PathVariable("id") Long id){

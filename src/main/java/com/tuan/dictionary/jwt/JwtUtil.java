@@ -1,16 +1,12 @@
-package com.tuan.jwt;
+package com.tuan.dictionary.jwt;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,7 +18,7 @@ public class JwtUtil {
 //	@Value("${jwt.secret}")
 	private String SECRET_KEY="styl";
 	
-	private long EXPIRATION_TIME=60;
+	private long EXPIRATION_TIME=60*60;
 	
 	public String extractEmail(String token) {
 		return extractClaim(token,Claims::getSubject);

@@ -4,13 +4,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.tuan.jwt.JwtRequestFilter;
-import com.tuan.jwt.JwtUtil;
+import com.tuan.dictionary.jwt.JwtRequestFilter;
+import com.tuan.dictionary.jwt.JwtUtil;
 
 @Configuration
 public class AppConfig {
@@ -36,14 +35,5 @@ public class AppConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	public JwtUtil jwtUtil() {
-		return new JwtUtil();
-	}
-	
-	@Bean
-	public JwtRequestFilter jwtRequestFilter() {
-		return new JwtRequestFilter();
-	}
+
 }

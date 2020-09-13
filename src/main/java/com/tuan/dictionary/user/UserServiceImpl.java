@@ -16,8 +16,8 @@ import com.tuan.dictionary.user.type.UserType;
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService {
 
-	private UserRepository userRepository;
-	private PasswordEncoder passwordEngcoder;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEngcoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {

@@ -1,4 +1,4 @@
-package com.tuan.jwt;
+package com.tuan.dictionary.jwt;
 
 import java.io.IOException;
 
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,15 +17,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.tuan.dictionary.exception.ServiceException;
-
-import io.jsonwebtoken.ExpiredJwtException;
-import net.bytebuddy.asm.MemberSubstitution.Substitution.Chain;
-
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Autowired
+	@Qualifier("userDetailServiceImpl")
 	private UserDetailsService userDetailService;
 	
 	@Autowired
@@ -37,7 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		final String authorizationHeader=request.getHeader("Authorization");
 		String email=null;
 		String jwtString=null;
-		
+
 		if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			jwtString=authorizationHeader.substring(7);
 			email=jwtUtil.extractEmail(jwtString);
