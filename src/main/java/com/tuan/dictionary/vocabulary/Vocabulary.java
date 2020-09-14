@@ -1,11 +1,13 @@
 package com.tuan.dictionary.vocabulary;
 
 import com.tuan.dictionary.collection.Collection;
+import com.tuan.dictionary.vocabulary.images.VocabularyImages;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="vocabulary")
@@ -45,6 +47,18 @@ public class Vocabulary {
 
     @Column(name="part_of_speech")
     private String partOfSpeech;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vocabulary_id")
+    private List<VocabularyImages> vocabularyImages;
+
+    public List<VocabularyImages> getVocabularyImages() {
+        return vocabularyImages;
+    }
+
+    public void setVocabularyImages(List<VocabularyImages> vocabularyImages) {
+        this.vocabularyImages = vocabularyImages;
+    }
 
     public Long getId() {
         return id;

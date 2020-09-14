@@ -46,7 +46,7 @@ public class AdminCollectionRestController {
     }
 
     @PostMapping
-    public void add(@RequestBody Collection collection, HttpServletResponse httpServletResponse){
+    public void add(@RequestBody Collection collection){
         if(collection.getId()!=null){
             throw new ControllerException("Collection Id must be null");
         }
