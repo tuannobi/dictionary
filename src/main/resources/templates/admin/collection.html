@@ -348,6 +348,14 @@
             });
 
             $(document).on('click', '#deleteButton', function() {
+                // Create a reference to the file to delete
+                let desertRef = storageRef.child('images/desert.jpg');
+                // Delete the file
+                desertRef.delete().then(function() {
+                    // File deleted successfully
+                }).catch(function(error) {
+                    alert(error)
+                });
                 $.ajax({
                     url: "http://localhost:8090/tuno/rest/admin/collections/"+current_id,
                     type: 'DELETE',
