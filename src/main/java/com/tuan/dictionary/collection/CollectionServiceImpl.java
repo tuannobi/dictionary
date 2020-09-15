@@ -44,8 +44,20 @@ public class CollectionServiceImpl extends BaseServiceImpl<Collection, Long> imp
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public String getUrlImageById(Long id) {
 		return collectionRepository.getUrlImageById(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateExcludeImage(Collection collection) {
+		Optional<Collection> existingCollection=collectionRepository.findById(collection.getId());
+		if(!existingCollection.isPresent()){
+			throw new ServiceException("Collection Not Found");
+		}
+		collectionRepository.updateExcludeImage(collection.getId(),collection.getName(),collection.getDescription(),LocalDateTime.now(),collection.isAccess());
+		
 	}
 
 }

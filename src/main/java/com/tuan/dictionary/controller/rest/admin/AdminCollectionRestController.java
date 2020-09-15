@@ -11,6 +11,8 @@ import com.tuan.dictionary.exception.ErrorResponse;
 import com.tuan.dictionary.exception.ServiceException;
 import com.tuan.dictionary.exception.SuccessResponse;
 import com.tuan.dictionary.exception.ValidateException;
+import com.tuan.validate.group.CollectionUpdate;
+import com.tuan.validate.group.CollectionUpdateExcludeImage;
 
 import javassist.expr.NewArray;
 
@@ -20,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,12 +71,23 @@ public class AdminCollectionRestController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid Collection collection, BindingResult bidBindingResult){
-    	if(bidBindingResult.hasErrors()) {
-    		throw new ValidateException(bidBindingResult.getFieldError().toString());
+    public ResponseEntity<?> update(@RequestBody @Validated(CollectionUpdate.class) Collection collection, 
+    		BindingResult bindingResult){
+    	if(bindingResult.hasErrors()) {
+    		throw new ValidateException(bindingResult.getFieldError().toString());
     	}
         collectionService.updateCollection(collection);
         return new ResponseEntity<SuccessResponse>(new SuccessResponse("Update Successfully!",HttpStatus.OK.value()),HttpStatus.OK);
+    }
+    
+    @PutMapping("/excludeImage")
+    public ResponseEntity<?> updateExcludeImage(@RequestBody @Validated(CollectionUpdateExcludeImage.class) Collection collection, 
+    		BindingResult bindingResult){
+    	if(bindingResult.hasErrors()) {
+    		throw new ValidateException(bindingResult.getFieldError().toString());
+    	}
+    	collectionService.updateExcludeImage(collection);
+    	return new ResponseEntity<SuccessResponse>(new SuccessResponse("Update Successfully!",HttpStatus.OK.value()),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

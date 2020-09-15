@@ -2,6 +2,9 @@ package com.tuan.dictionary.collection;
 
 import com.tuan.dictionary.purchasedetail.PurchaseDetail;
 import com.tuan.dictionary.vocabulary.Vocabulary;
+import com.tuan.validate.group.CollectionCreate;
+import com.tuan.validate.group.CollectionUpdate;
+import com.tuan.validate.group.CollectionUpdateExcludeImage;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,20 +18,21 @@ import java.util.List;
 @Table(name = "collection")
 public class Collection {
 
+//	@NotBlank(groups = {CollectionUpdate.class,CollectionUpdateExcludeImage.class})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(groups = {CollectionCreate.class,CollectionUpdate.class,CollectionUpdateExcludeImage.class})
     @Column(name = "name")
     private String name;
 
-    @NotBlank
+    @NotBlank(groups = {CollectionCreate.class,CollectionUpdate.class,CollectionUpdateExcludeImage.class})
     @Column(name = "description")
     private String description;
 
-    @NotBlank
+    @NotBlank(groups= {CollectionCreate.class,CollectionUpdate.class})
     @Column(name = "images")
     private String imageNames;
 
