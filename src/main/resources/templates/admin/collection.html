@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Collection</title>
     <link rel="stylesheet" th:href="@{/resources/static/client/css/bootstrap.min.css}">
+<!-- 	<link rel="stylesheet" th:href="@{https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css}"> -->
 </head>
 <body>
     <div class="container-fluid">
@@ -70,6 +71,16 @@
                 <tbody>
                   
                 </tbody>
+				<tfoot>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Create Date</th>
+                    <th scope="col">Update Date</th>
+                    <th scope="col">Available</th>
+                    <th>Action</th>
+                  </tr>
+                </tfoot>
               </table>
         </div>
     </div>
@@ -142,6 +153,7 @@
     <script th:src="@{/resources/static/client/js/jquery-3.5.1.min.js}"></script>
     <script th:src="@{/resources/static/client/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/resources/static/client/js/bootstrap.min.js}"></script>
+<!-- 	<script th:src="@{https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js}"></script> -->
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script th:src="@{https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js}"></script>
@@ -150,7 +162,6 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
          https://firebase.google.com/docs/web/setup#available-libraries -->
     <script th:src="@{https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js}"></script>
-
     <script>
     	$(document).ready(function(){
             let firebaseConfig = {
@@ -274,14 +285,17 @@
                         switch (error.code) {
                             case 'storage/unauthorized':
                                 // User doesn't have permission to access the object
+                                alert("User doesn't have permission to access the object")
                                 break;
 
                             case 'storage/canceled':
                                 // User canceled the upload
+                                alert("User canceled the upload")
                                 break;
 
                             case 'storage/unknown':
                                 // Unknown error occurred, inspect error.serverResponse
+                                alert("Unknown error occurred, inspect error.serverResponse")
                                 break;
                         }
                     }, function() {
@@ -307,9 +321,22 @@
                                 contentType: 'application/json',
                                 error : function(err) {
                                     console.log('Error!', err)
+                                 	// Create a reference to the file to delete
+            		                let desertRef = storageRef.child(pathFile);
+            		                // Delete the file
+            		                desertRef.delete().then(function() {
+            		                    // File deleted successfully
+            		                    console.log('Remoting file deleted successfully!')
+            		
+            		                }).catch(function(error) {
+            		                    console.log('Error!',error)
+            		                    alert(error)
+            		                });
+            		                //
                                 },
                                 success: function(data) {
                                     console.log('Success!')
+                                    console.log(data.message)
                                     location.reload()
                                 }
                             });
@@ -320,53 +347,155 @@
             });
 
             $(document).on('click', '#updateButton', function(){
-                $.ajax({
-                    url: "http://localhost:8090/tuno/rest/admin/collections",
-                    type: 'PUT',
-                    // headers: {
-                    //     'Accept': 'application/json',
-                    //     'Content-Type': 'application/json'
-                    // },
-                    data: JSON.stringify({
-                        'id':current_id,
-                        'name':$('input[name="name"]').val(),
-                        'description':$('#description').val(),
-                        'imageNames':'',
-                        'createDate':'',
-                        'updateTime':'',
-                        'access':$('#access').find(':selected').val()
-                    }),
-                    contentType: 'application/json',
-                    error : function(err) {
-                        console.log('Error!', err)
-                    },
-                    success: function(data) {
-                        console.log('Success!')
-                        location.reload()
-                    }
-                });
+            	let file=document.querySelector('#file').files[0]
+            	if(document.querySelector('#file').files.length>0){
+            		alert("co file")
+            	} else{
+            		alert("khong co file")
+            	}
+                /* let newPathFile='Collections/'+Date.now()+'_'+file.name;
+                let uploadTask = storageRef.child(newPathFile).put(file, metadata);
+                // Listen for state changes, errors, and completion of the upload.
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+                    function(snapshot) {
+                        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                        switch (snapshot.state) {
+                            case firebase.storage.TaskState.PAUSED: // or 'paused'
+                                console.log('Upload is paused');
+                                break;
+                            case firebase.storage.TaskState.RUNNING: // or 'running'
+                                console.log('Upload is running');
+                                break;
+                        }
+                    }, function(error) {
+
+                        // A full list of error codes is available at
+                        // https://firebase.google.com/docs/storage/web/handle-errors
+                        switch (error.code) {
+                            case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                alert("User doesn't have permission to access the object")
+                                break;
+
+                            case 'storage/canceled':
+                                // User canceled the upload
+                                alert("User canceled the upload")
+                                break;
+
+                            case 'storage/unknown':
+                                // Unknown error occurred, inspect error.serverResponse
+                                alert("Unknown error occurred, inspect error.serverResponse")
+                                break;
+                        }
+                    }, function() {
+                        // Upload completed successfully, now we can get the download URL
+                        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                            console.log('File available at', downloadURL);
+                            //check old file in database
+                            $.ajax({
+                                url: "http://localhost:8090/tuno/rest/admin/collections/getUrlImage/"+current_id,
+                                type: 'GET',
+                                error : function(err) {
+                                    console.log('Error!', err)
+                                    alert(err)
+                                },
+                                success: function(data) {
+									let oldPathFile=data
+									//update du lieu moi cho database
+					                $.ajax({
+					                    url: "http://localhost:8090/tuno/rest/admin/collections",
+					                    type: 'PUT',
+					                    // headers: {
+					                    //     'Accept': 'application/json',
+					                    //     'Content-Type': 'application/json'
+					                    // },
+					                    data: JSON.stringify({
+					                        'id':current_id,
+					                        'name':$('input[name="name"]').val(),
+					                        'description':$('#description').val(),
+					                        'imageNames':newPathFile,
+					                        'createDate':'',
+					                        'updateTime':'',
+					                        'access':$('#access').find(':selected').val()
+					                    }),
+					                    contentType: 'application/json',
+					                    error : function(err) {
+					                        console.log('Error!', err)
+		            		                let desertRef = storageRef.child(newPathFile);
+		            		                // Delete the file
+		            		                desertRef.delete().then(function() {
+		            		                    // File deleted successfully
+		            		                    console.log('New Remoting file deleted successfully!')
+		            		
+		            		                }).catch(function(error) {
+		            		                    console.log('Error!',error)
+		            		                    alert(error)
+		            		                });
+					                    },
+					                    success: function(data) {
+					                        console.log('Success!')
+					                        //Luu thanh cong thi tien hanh xoa file remoting
+		            						// Create a reference to the file to delete
+		            		                let desertRef = storageRef.child(oldPathFile);
+		            		                // Delete the file
+		            		                desertRef.delete().then(function() {
+		            		                    // File deleted successfully
+		            		                    console.log('Old Remoting file deleted successfully!')
+		            		
+		            		                }).catch(function(error) {
+		            		                    console.log('Error!',error)
+		            		                    alert(error)
+		            		                });
+					                    }
+					                });
+                                
+                                }
+                            });
+                        });
+                    }); */
             });
 
             $(document).on('click', '#deleteButton', function() {
-                // Create a reference to the file to delete
-                let desertRef = storageRef.child('images/desert.jpg');
-                // Delete the file
-                desertRef.delete().then(function() {
-                    // File deleted successfully
-                }).catch(function(error) {
-                    alert(error)
-                });
+                
+                
                 $.ajax({
-                    url: "http://localhost:8090/tuno/rest/admin/collections/"+current_id,
-                    type: 'DELETE',
+                    url: "http://localhost:8090/tuno/rest/admin/collections/getUrlImage/"+current_id,
+                    type: 'GET',
                     error : function(err) {
                         console.log('Error!', err)
+                        alert(err)
                     },
                     success: function(data) {
-                        console.log('Success!')
-                        location.reload()
+                        console.log('File existed!')
+						// Create a reference to the file to delete
+		                let desertRef = storageRef.child(data);
+		                // Delete the file
+		                desertRef.delete().then(function() {
+		                    // File deleted successfully
+		                    console.log('Remoting file deleted successfully!')
+	                    	$.ajax({
+		                        url: "http://localhost:8090/tuno/rest/admin/collections/"+current_id,
+		                        type: 'DELETE',
+		                        error : function(err) {
+		                            console.log('Error!', err)
+		                        },
+		                        success: function(data) {
+		                            console.log('Record in database is deleted successfully!')
+		                            location.reload()
+		                        }
+	                    	});
+		
+		                }).catch(function(error) {
+		                    console.log('Error!',error)
+		                    alert(error)
+		                });
+    
+                    
                     }
                 });
+                
             });
 
 

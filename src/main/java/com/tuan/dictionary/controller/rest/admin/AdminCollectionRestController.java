@@ -4,13 +4,22 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
-import com.tuan.dictionary.exception.ControllerException;
+import com.tuan.dictionary.exception.ErrorResponse;
 import com.tuan.dictionary.exception.ServiceException;
+import com.tuan.dictionary.exception.SuccessResponse;
+import com.tuan.dictionary.exception.ValidateException;
+
+import javassist.expr.NewArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tuan.dictionary.collection.Collection;
@@ -46,26 +56,34 @@ public class AdminCollectionRestController {
     }
 
     @PostMapping
-    public void add(@RequestBody Collection collection){
+    public ResponseEntity<?> add(@RequestBody @Valid Collection collection,BindingResult bindingResult){
         if(collection.getId()!=null){
-            throw new ControllerException("Collection Id must be null");
+            throw new ValidateException("Collection Id must be null");
         }
-        collectionService.addCollection(collection);
+        if(bindingResult.hasErrors()) {
+        	throw new ValidateException(bindingResult.getFieldError().toString());
+        }
+    	collectionService.addCollection(collection);	
+        return new ResponseEntity<SuccessResponse>(new SuccessResponse("Add successfully!",HttpStatus.OK.value()),HttpStatus.OK);
     }
 
     @PutMapping
-    public void update(@RequestBody Collection collection){
-        try{
-            collectionService.updateCollection(collection);
-        }catch (ServiceException ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,ex.getMessage(),ex);
-        }catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage(),ex);
-        }
+    public ResponseEntity<?> update(@RequestBody @Valid Collection collection, BindingResult bidBindingResult){
+    	if(bidBindingResult.hasErrors()) {
+    		throw new ValidateException(bidBindingResult.getFieldError().toString());
+    	}
+        collectionService.updateCollection(collection);
+        return new ResponseEntity<SuccessResponse>(new SuccessResponse("Update Successfully!",HttpStatus.OK.value()),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(HttpServletResponse response,@PathVariable("id") Long id){
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
         collectionService.deleteById(id);
+        return new ResponseEntity<SuccessResponse>(new SuccessResponse("Delete Successfully!",HttpStatus.OK.value()),HttpStatus.OK);
+    }
+    
+    @GetMapping("/getUrlImage/{id}")
+    public String getUrlImage(@PathVariable("id") Long id) {
+    	return collectionService.getUrlImageById(id);
     }
 }

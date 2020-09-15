@@ -7,4 +7,5 @@ import com.tuan.dictionary.exception.ServiceException;
 public interface CollectionService extends BaseService<Collection, Long> {
 	void addCollection(Collection collection);
 	void updateCollection(Collection collection) throws ServiceException;
+	String getUrlImageById(Long id);
 }

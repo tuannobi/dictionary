@@ -40,7 +40,12 @@ public class CollectionServiceImpl extends BaseServiceImpl<Collection, Long> imp
 		if(!existingCollection.isPresent()){
 			throw new ServiceException("Collection Not Found");
 		}
-		collectionRepository.updateCollection(collection.getId(),collection.getName(),collection.getDescription(),LocalDateTime.now(),collection.isAccess());
+		collectionRepository.update(collection.getId(),collection.getName(),collection.getDescription(),LocalDateTime.now(),collection.isAccess(),collection.getImageNames());
+	}
+
+	@Override
+	public String getUrlImageById(Long id) {
+		return collectionRepository.getUrlImageById(id);
 	}
 
 }

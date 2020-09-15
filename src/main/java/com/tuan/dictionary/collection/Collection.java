@@ -4,6 +4,8 @@ import com.tuan.dictionary.purchasedetail.PurchaseDetail;
 import com.tuan.dictionary.vocabulary.Vocabulary;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -18,12 +20,15 @@ public class Collection {
     @Column(name = "id")
     private Long id;
 
+    @NotBlank
     @Column(name = "name")
     private String name;
 
+    @NotBlank
     @Column(name = "description")
     private String description;
 
+    @NotBlank
     @Column(name = "images")
     private String imageNames;
 

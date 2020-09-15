@@ -18,7 +18,7 @@ public class JwtUtil {
 //	@Value("${jwt.secret}")
 	private String SECRET_KEY="styl";
 	
-	private long EXPIRATION_TIME=60*60;
+	private long EXPIRATION_TIME=60*60*60; //60 hours
 	
 	public String extractEmail(String token) {
 		return extractClaim(token,Claims::getSubject);

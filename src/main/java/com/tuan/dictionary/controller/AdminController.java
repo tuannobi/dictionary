@@ -14,21 +14,15 @@ import com.tuan.dictionary.collection.CollectionService;
 @RequestMapping("/web/admin/collections")
 public class AdminController {
 	
-	@Autowired
 	private CollectionService collectionService;
+	
+	@Autowired
+	public AdminController(CollectionService collectionService) {
+		this.collectionService=collectionService;
+	}
 	
     @GetMapping
     public String showIndexCollectionForm(){
         return "admin/collection";
-    }
-    
-    @GetMapping("/add")
-    public String showAddCollectionForm() {
-    	return "admin/collection_add";
-    }
-    
-    @GetMapping("/update")
-    public String showUpdateCollectionForm() {
-    	return "admin/collection_update";
     }
 }
